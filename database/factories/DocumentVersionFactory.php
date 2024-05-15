@@ -19,7 +19,7 @@ class DocumentVersionFactory extends Factory
     {
         return [
             'document_id' => Document::inRandomOrder()->first()->id,
-            'version' => 1,
+            'version' => random_int(0, 20),
             'body_content' => json_encode([
                 'introduction' => fake()->paragraph,
                 'facts' => fake()->paragraph,

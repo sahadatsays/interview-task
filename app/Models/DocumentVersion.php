@@ -10,6 +10,12 @@ class DocumentVersion extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
+    protected $casts = [
+        'body_content' => 'array',
+    ];
+
     /**
      * Get the document that owns the DocumentVersion
      *

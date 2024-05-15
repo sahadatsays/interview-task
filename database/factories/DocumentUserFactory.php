@@ -21,7 +21,7 @@ class DocumentUserFactory extends Factory
         return [
             'document_id' => Document::inRandomOrder()->first()->id,
             'user_id' => User::inRandomOrder()->author()->first()->id,
-            'last_viewed_version' => 0,
+            'last_viewed_version' => random_int(0, 20),
         ];
     }
 }
