@@ -33,5 +33,8 @@ class DatabaseSeeder extends Seeder
         Document::factory(1200)->create();
         DocumentVersion::factory(2500)->create();
         DocumentUser::factory(8400)->create();
+        $this->call([
+            TaskSeeder::class
+        ]);
     }
 }
