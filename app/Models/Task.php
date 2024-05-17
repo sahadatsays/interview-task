@@ -9,4 +9,8 @@ class Task extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    protected $casts = [
+        'source_selectors' => 'array',
+    ];
 }

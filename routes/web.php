@@ -3,9 +3,11 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use App\Models\Task;
+use App\Scraper\Scraper;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Symfony\Component\Panther\Client;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +29,21 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
         'tasks' => $tasks
     ]);
+});
+
+Route::get('test', function () {
+    $url = 'https://webscraper.io/blog';
+    $selectors = [
+        'container' => '.blogno',
+        'link' => 'a.titleblog',
+        'title' => 'a.titleblog',
+        'description' => 'div.para',
+        'date' => 'p.date',
+        'remove_text_from_date' => '',
+        'date_format' => '',
+        'ref_selector' => '#app-wrapper'
+    ];
+    Scraper::scraper($url, $selectors);
 });
 
 Route::resource('tasks', TaskController::class);
