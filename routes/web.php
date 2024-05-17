@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
+use App\Jobs\ScrapingJob;
 use App\Models\Task;
 use App\Scraper\Scraper;
 use Illuminate\Foundation\Application;
@@ -31,20 +32,11 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('test', function () {
-    $url = 'https://webscraper.io/blog';
-    $selectors = [
-        'container' => '.blogno',
-        'link' => 'a.titleblog',
-        'title' => 'a.titleblog',
-        'description' => 'div.para',
-        'date' => 'p.date',
-        'remove_text_from_date' => '',
-        'date_format' => '',
-        'ref_selector' => '#app-wrapper'
-    ];
-    Scraper::scraper($url, $selectors);
-});
+Route::get('crawler/{task_id}', function ($task_id) {
+    $task = Task::find($task_id);
+    $task->update(['processing' => true]);
+    ScrapingJob::dispatch($task);
+})->name('crawler.task');
 
 Route::resource('tasks', TaskController::class);
 

@@ -18,6 +18,10 @@ import {
     ChevronsUpDownIcon,
     CircleX,
     EditIcon,
+    ExternalLink,
+    Link2,
+    Loader,
+    Loader2,
     MoreHorizontal,
     Pencil,
     RefreshCcw,
@@ -26,6 +30,7 @@ import {
 
 import { Label } from "@/Components/ui/label";
 import { Switch } from "@/Components/ui/switch";
+import { Link } from "@inertiajs/react";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -138,42 +143,71 @@ export const columns: ColumnDef<Task>[] = [
     {
         id: "actions",
         cell: ({ row }) => {
-            const task = row.original;
-            console.log(task);
+            const has_result = row.original.result == null ? false : true;
+            const processing = row.original.processing;
 
             return (
                 <>
-                    {row.original.processing ? (
-                        <p>Processing</p>
-                    ) : (
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="h-8 w-8 p-0">
-                                    <span className="sr-only">Open menu</span>
-                                    <MoreHorizontal className="h-4 w-4" />
+                    {(() => {
+                        if (processing) {
+                            return (
+                                <Button variant={"outline"} disabled>
+                                    <Loader className="mr-2 h-4 w-4 animate-spin" />{" "}
+                                    Checking
                                 </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuItem>
-                                    <SearchCheck className="h-4 w-4 mr-1" />
-                                    Check Selectors
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <RefreshCcw className="h-4 w-4 mr-1" />
-                                    Run Crawler
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <Pencil className="h-4 w-4 mr-1" />
-                                    Edit Source
-                                </DropdownMenuItem>
+                            );
+                        } else if (processing == true && has_result != null) {
+                            return (
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            className="h-8 w-8 p-0"
+                                        >
+                                            <span className="sr-only">
+                                                Open menu
+                                            </span>
+                                            <MoreHorizontal className="h-4 w-4" />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end">
+                                        <DropdownMenuItem>
+                                            <SearchCheck className="h-4 w-4 mr-1" />
+                                            Check Selectors
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <Link
+                                                href={
+                                                    "/crawler/" +
+                                                    row.original.id
+                                                }
+                                                className="flex"
+                                            >
+                                                <RefreshCcw className="h-4 w-4 mr-1" />
+                                                Run Crawler
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <Pencil className="h-4 w-4 mr-1" />
+                                            Edit Source
+                                        </DropdownMenuItem>
 
-                                <DropdownMenuItem>
-                                    <CircleX className="h-4 w-4 mr-1" />
-                                    Remove Source
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    )}
+                                        <DropdownMenuItem>
+                                            <CircleX className="h-4 w-4 mr-1" />
+                                            Remove Source
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            );
+                        } else {
+                            return (
+                                <Button variant={"outline"}>
+                                    <ExternalLink className="h-4 w-4 mr-2"/>
+                                    See Results
+                                </Button>
+                            );
+                        }
+                    })()}
                 </>
             );
         },

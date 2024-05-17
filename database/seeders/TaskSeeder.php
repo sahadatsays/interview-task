@@ -30,7 +30,7 @@ class TaskSeeder extends Seeder
             'url' => 'https://webscraper.io/blog',
             'country' => 'Bangladesh',
             'document' => 'Document 1',
-            'source_selectors' => json_encode($selectors),
+            'source_selectors' => $selectors,
             'enabled' => true,
             'ref_selector' => '#app-wrapper'
         ]);

@@ -30,6 +30,11 @@ class ScrapingJob implements ShouldQueue
     {
         $sourceSelectos = $this->task->source_selectors;
         $sourceSelectos['ref_selector'] = $this->task->ref_selector;
-        Scraper::scraper($this->task->url, $sourceSelectos);
+        $result = Scraper::scraper($this->task->url, $sourceSelectos);
+        if (count($result) > 0) {
+            $this->task->update(['result' => $result]);
+        }
+
+        $this->task->update(['processing' => false]);
     }
 }

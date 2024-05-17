@@ -12,9 +12,9 @@ class Scraper
     public static function scraper($url, $source)
     {
         try {
+            $data = [];
             $client = Client::createChromeClient();
             $crawler = $client->request('GET', $url);
-            $data = [];
             $crawler->filter($source['container'])->each(function ($element) use ($source, &$data) {
                 $item = [];
                 $item['title'] = $element->filter($source['title'])->eq(0)->text();
@@ -25,8 +25,9 @@ class Scraper
                     $data[] = $item;
                 }
             });
+            return $data;
         } catch (\Throwable $th) {
-            dump($th);
+            return [];
         }
     }
 }
