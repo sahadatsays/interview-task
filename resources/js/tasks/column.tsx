@@ -11,6 +11,7 @@ import {
     DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
 import { Button } from "@/Components/ui/button";
+
 import {
     ArrowDownUp,
     ArrowUpDown,
@@ -31,6 +32,7 @@ import {
 import { Label } from "@/Components/ui/label";
 import { Switch } from "@/Components/ui/switch";
 import { Link } from "@inertiajs/react";
+import ShowTask from "./show";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -156,7 +158,9 @@ export const columns: ColumnDef<Task>[] = [
                                     Checking
                                 </Button>
                             );
-                        } else if (processing == true && has_result != null) {
+                        } else if (has_result) {
+                            return <ShowTask task={row.original} />;
+                        } else {
                             return (
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
@@ -198,13 +202,6 @@ export const columns: ColumnDef<Task>[] = [
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
-                            );
-                        } else {
-                            return (
-                                <Button variant={"outline"}>
-                                    <ExternalLink className="h-4 w-4 mr-2"/>
-                                    See Results
-                                </Button>
                             );
                         }
                     })()}

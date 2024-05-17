@@ -21,7 +21,7 @@ class Scraper
                 $item['link'] = $element->filter($source['link'])->eq(0)->getAttribute('href');
                 $item['date']  = $element->filter($source['date'])->eq(0)->text();
                 $item['description'] = $element->filter($source['description'])->eq(0)->text();
-                if (count($data) < 5) {
+                if (count($data) < 10) {
                     $data[] = $item;
                 }
             });
