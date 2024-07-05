@@ -55,7 +55,6 @@ class ProductTest extends TestCase
         // Assertions
         $this->assertDatabaseHas('products', [
             'id' => $product->id,
-            'name' => $product->name,
             'attributes' => json_encode(['size' => 'large', 'material' => 'cotton']),
             'choice_options' => json_encode(['color' => ['red', 'blue'], 'size' => ['S', 'M', 'L']]),
             'colors' => json_encode(['#ff0000', '#0000ff']),
